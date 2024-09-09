@@ -71,6 +71,13 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('storage/notes') => storage_path('app/notes'),
+        public_path('storage/assignments') => storage_path('app/assignments'),
+        public_path('storage/timetables') => storage_path('app/timetables'),
+        public_path('storage/submitted_assignments') => storage_path('app/submitted_assignments'),
+        public_path('storage/library') => storage_path('app/library'),
+        public_path('storage/applicant_nrc') => storage_path('app/applicant_nrc'),
+        public_path('storage/applicant_results') => storage_path('app/applicant_results'),
     ],
 
 ];
