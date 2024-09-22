@@ -6,6 +6,7 @@ use App\Http\Controllers\applicationController;
 use App\Http\Controllers\assignmentsController;
 use App\Http\Controllers\countryStateController;
 use App\Http\Controllers\installmentsController;
+use App\Http\Controllers\intakesController;
 use App\Http\Controllers\inventoryController;
 use App\Http\Controllers\libraryController;
 use App\Http\Controllers\notesController;
@@ -174,6 +175,8 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
 
     Route::get('/admin/get_applicants', [applicationController::class, 'getApplicants']);
     Route::get('/admin/count_applicants', [applicationController::class, 'countApplicants']);
+
+    Route::post('/intakes/change_status/{id}', [intakesController::class, 'changeStatus']);
 
     Route::post('/admin/logout', [AdminAuthController::class, 'logout']);
 });

@@ -13,7 +13,7 @@ class intakesController extends Controller
     public function index() {
         try {
             $intakes = DB::table("intakes")
-            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation')
+            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation', 'application_status')
             ->paginate(20);
 
             return response()->json([
@@ -29,10 +29,30 @@ class intakesController extends Controller
         }
     }
 
+    public function changeStatus(Request $request) {
+        try {
+            $current_status =  DB::table('intakes')->where('id', $request->id)->value('application_status');
+
+            DB::table('intakes')->where('id', $request->id)->update([
+                'application_status' => $current_status == 'open' ? 'closed' : 'open'
+            ]);
+
+            return response()->json([
+                'message' => 'Intake status changed'
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status'=> 500,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
     public function getIntakeById(Request $request) {
         try {
             $intakes = DB::table("intakes")
-            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation')
+            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation', 'application_status')
             ->where('id', $request->intake_id)
             ->first();
 
@@ -52,8 +72,29 @@ class intakesController extends Controller
     public function intakeByProgramType(Request $request) {
         try {
             $intakes = DB::table("intakes")
-            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation')
+            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation', 'application_status')
             ->where('designation', $request->program_type)
+            ->get();
+
+            return response()->json([
+                'status' => 200,
+                'data' => $intakes,
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status'=> 500,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function OpenintakeByProgramType(Request $request) {
+        try {
+            $intakes = DB::table("intakes")
+            ->select('id', 'label', 'month', 'year', 'intake_code', 'designation', 'application_status')
+            ->where('designation', $request->program_type)
+            ->where('application_status', 'open')
             ->get();
 
             return response()->json([

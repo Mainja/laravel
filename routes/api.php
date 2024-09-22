@@ -32,6 +32,7 @@ Route::get('/intakes/{intake_id}', [intakesController::class,'getIntakeById']);
 Route::post('/intakes', [intakesController::class,'store']);
 Route::put('/intakes', [intakesController::class,'update']);
 Route::get('/intakes/intake_by_program_type/{program_type}', [intakesController::class, 'intakeByProgramType']);
+Route::get('/intakes/open_intake_by_program_type/{program_type}', [intakesController::class, 'OpenintakeByProgramType']);
 
 Route::get('/offices', [officesController::class,'index']);
 Route::post('/offices', [officesController::class,'store']);
